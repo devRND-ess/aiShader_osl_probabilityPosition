@@ -1,0 +1,38 @@
+//**probability and position for fur shading**
+shader ProbabilityPos
+(
+	int Barycentric = 0 [[string label = "use barycentric coord" ,string widget = "boolean" ]],
+	float randInput = 0 [[string help = "Connect aiUtility(uniformId/objectId) to aiRandom with greyScale output and plug in here" ]],
+	float probability = 0.5,
+	float pos = 0.5,
+	float soft = 0.01,
+	float posDir = 0.0 [[string help = "0 means root to tip and 1 means tip to root" ]],
+	float BarycentricU = 0.0,
+	float BarycentricV = 0.0,
+	output color result = 0
+	
+)
+{
+	if (Barycentric)
+		point uv = point(BarycentricU, BarycentricV, 0);
+	else
+		uv = point(u, v, 0);
+	uv = transform("common", uv);
+	float d = uv[1];
+	float probOut = 0.0;
+	if (randInput<=probability)
+		probOut = 1.0;
+	else
+		probOut = 0.0;
+
+	float posOut = 0.0;
+	float posC = pos;
+	if (posDir == 1.0) 
+	{	
+		posC = 1.0-posC;
+		posOut = smoothstep(posC, posC+soft, d);
+	}
+	else
+		posOut = 1-smoothstep(posC, posC+soft, d);
+	result = posOut*probOut;
+}
