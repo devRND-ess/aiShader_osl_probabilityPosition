@@ -1,0 +1,28 @@
+shader rampCustom
+(
+	string type = "v" [[string widget = "popup",string help = "u, v, z",string options = "u|v|z",string label = "rampType" ]],
+	float rampVal = 0.5,
+	float rampSoftness = 0.01,
+	output color result = 0.0
+)
+{
+	point pC = transform("object", P);
+	pC += 0.5;
+	float sP = 0.0;
+	if (type=="u")
+	{	sP = smoothstep(rampVal, rampVal+rampSoftness, pC[0]);
+		result = sP;
+	}
+	else if (type=="v")
+	{	
+		sP = smoothstep(rampVal, rampVal+rampSoftness, pC[1]);
+		result = sP;
+	}
+	else if (type=="z")
+	{
+		sP = smoothstep(rampVal, rampVal+rampSoftness, pC[2]);
+		result = sP;
+	}
+	else
+		result = color(1.0, 0.0, 0.0);
+}
