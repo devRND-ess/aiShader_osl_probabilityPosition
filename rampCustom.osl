@@ -1,3 +1,4 @@
+#use type field to change what direction you want the ramp to go in : type "u" for horizontal, "v" for vertical and "z" means in the z direction
 shader rampCustom
 (
 	string type = "v" [[string widget = "popup",string help = "u, v, z",string options = "u|v|z",string label = "rampType" ]],
